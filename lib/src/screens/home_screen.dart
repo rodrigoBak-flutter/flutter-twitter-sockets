@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:twitter/src/model/twitt.dart';
+import 'package:twitter/src/services/services.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -16,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final socketService = Provider.of<SocketService>(context);
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -25,6 +28,18 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.add),
             onPressed: agregarTwitt,
           ),
+          Container(
+            margin: EdgeInsets.only(right: 10),
+            child: (socketService.serverStatus == ServerStatus.Online)
+                ? Icon(
+                    Icons.check_circle,
+                    color: Colors.lightBlue,
+                  )
+                : Icon(
+                    Icons.offline_bolt,
+                    color: Colors.red,
+                  ),
+          )
         ],
         title: Text(
           'Twitter',
